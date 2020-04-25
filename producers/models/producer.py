@@ -31,5 +31,15 @@ class Producer:
 
         """Initializes Broker settings"""
         self.broker_properties = {
-
+            "BROKER_URL": "PLAINTEXT://localhost:9092",
+            "SCHEMA_REGISTRY_URL": "http://localhost:8081"
         }
+
+        # If the topic does not already exist, try to create it
+        if self.topic_name not in Producer.existing_topics:
+            self.create_topic()
+            Producer.existing_topics.add(self.topic_name)
+
+        self.producer = AvroProducer(
+
+        )
