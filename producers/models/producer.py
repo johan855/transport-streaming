@@ -3,9 +3,13 @@ import logging
 
 from confluent_kafka import avro
 from confluent_kafka.admin import AdminClient, NewTopic
-from confluent_kafka.avro import AvroProducer
+from confluent_kafka.avro import AvroProducer, CachedSchemaRegistryClient
 
 logger = logging.getLogger(__name__)
+
+
+BROKER_URL = "PLAINTEXT://kafka0:9092,PLAINTEXT://kafka1:9093,PLAINTEXT://kafka2:9094",
+SCHEMA_REGISTRY_URL = "http://schema-registry:8081"
 
 
 class Producer:
@@ -31,8 +35,8 @@ class Producer:
 
         """Initializes Broker settings"""
         self.broker_properties = {
-            "BROKER_URL": "PLAINTEXT://localhost:9092",
-            "SCHEMA_REGISTRY_URL": "http://localhost:8081"
+            "bootstrap.servers": BROKER_URL,
+            "schema.registry.url": SCHEMA_REGISTRY_URL
         }
 
         # If the topic does not already exist, try to create it
@@ -40,6 +44,36 @@ class Producer:
             self.create_topic()
             Producer.existing_topics.add(self.topic_name)
 
+        """Initialize Schema setting"""
+        schema_registry = CachedSchemaRegistryClient(SCHEMA_REGISTRY_URL)
         self.producer = AvroProducer(
-
+            self.broker_properties,
+            default_key_schema=self.key_schema,
+            default_value_schema=self.value_schema
         )
+
+    def create_topic(self):
+        """Creates the producer topic if it does not already exist"""
+        """Check missing config on client.create_topics()"""
+        client = AdminClient(
+            {"bootstrap.servers": self.broker_properties["bootstrap.servers"]}
+        )
+        futures = client.create_topics(
+            [NewTopic(
+                topic = self.topic_name,
+                num_partitions = self.num_partitions,
+                replication = self.num_replicas
+            )]
+        )
+        logger.info("topic creation kafka integration incomplete - skipping")
+
+    def time_millis(self):
+        return int(round(time.time() * 1000))
+
+    def close(self):
+        """Prepares the producer for exit by cleaning up the producer"""
+        if self.topic_name != None:
+            self.producer.flush()
+            logger.info("producer flushed")
+        else:
+            logger.info("producer close incomplete - skipping")
