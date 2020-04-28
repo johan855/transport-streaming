@@ -58,14 +58,20 @@ class Producer:
         client = AdminClient(
             {"bootstrap.servers": self.broker_properties["bootstrap.servers"]}
         )
+        topics_list = client.list_topics(timeout=3)
+        if self.topic_name in set(t.topic for t in iter(topics_list.topics.values())):
+            logger.info("topic already exists, skipping...")
+            return
+        topic_name = self.topic_name
+        logger.info(f"creating topic {topic_name}")
         futures = client.create_topics(
             [NewTopic(
-                topic = self.topic_name,
+                topic = topic_name,
                 num_partitions = self.num_partitions,
                 replication_factor = self.num_replicas
             )]
         )
-        logger.info("topic creation kafka integration incomplete - skipping")
+
 
     def time_millis(self):
         return int(round(time.time() * 1000))
