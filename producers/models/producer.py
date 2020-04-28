@@ -8,8 +8,8 @@ from confluent_kafka.avro import AvroProducer
 logger = logging.getLogger(__name__)
 
 
-BROKER_URL = "PLAINTEXT://kafka0:9092,PLAINTEXT://kafka1:9093,PLAINTEXT://kafka2:9094",
-SCHEMA_REGISTRY_URL = "http://schema-registry:8081"
+BROKER_URL = "PLAINTEXT://localhost:9092,PLAINTEXT://localhost:9093,PLAINTEXT://localhost:9094",
+SCHEMA_REGISTRY_URL = "http://localhost:8081"
 
 
 class Producer:
