@@ -33,8 +33,7 @@ class TimeSimulation:
 
         # Read data from disk
         self.raw_df = pd.read_csv(
-            f"{Path(__file__).parents[0]}/data/cta_stations.csv"
-        ).sort_values("order")
+            f"{Path(__file__).parents[0]}/data/cta_stations.csv").sort_values("order")
 
         # Define the train schedule (same for all trains)
         self.schedule = schedule
