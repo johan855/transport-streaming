@@ -60,7 +60,6 @@ class Producer:
         topics_list = client.list_topics(timeout=5)
         topic_name = self.topic_name
         if topic_name not in set(t.topic for t in iter(topics_list.topics.values())):
-
             logger.info(f"creating topic {topic_name}")
             futures = client.create_topics(
                 [NewTopic(
@@ -69,9 +68,9 @@ class Producer:
                     replication_factor=self.num_replicas
                 )]
             )
-            return
         else:
             logger.info("topic already exists, skipping...")
+        return
 
 
 
