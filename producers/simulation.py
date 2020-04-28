@@ -32,6 +32,7 @@ class TimeSimulation:
             self.time_step = datetime.timedelta(minutes=self.sleep_seconds)
 
         # Read data from disk
+        logger.info("reading data from disk")
         self.raw_df = pd.read_csv(
             f"{Path(__file__).parents[0]}/data/cta_stations.csv").sort_values("order")
 
