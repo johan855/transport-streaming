@@ -69,7 +69,7 @@ class Producer:
                 )]
             )
         else:
-            logger.info("topic already exists, skipping...")
+            logger.info(f"topic {topic_name} already exists, skipping...")
         return
 
 
