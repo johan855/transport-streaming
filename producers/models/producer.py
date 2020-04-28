@@ -28,7 +28,7 @@ class Producer:
     ):
         """Initializes a Producer object with basic settings"""
         self.topic_name = topic_name
-        self.key_schema = key_schema
+        self.key_schema = key_schemaK
         self.value_schema = value_schema
         self.num_partitions = num_partitions
         self.num_replicas = num_replicas
@@ -57,7 +57,7 @@ class Producer:
         client = AdminClient(
             {"bootstrap.servers": self.broker_properties["bootstrap.servers"]}
         )
-        topics_list = client.list_topics(timeout=3)
+        topics_list = client.list_topics(timeout=5)
         if self.topic_name in set(t.topic for t in iter(topics_list.topics.values())):
             logger.info("topic already exists, skipping...")
             return
