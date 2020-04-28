@@ -57,7 +57,7 @@ class Producer:
         client = AdminClient(
             {"bootstrap.servers": self.broker_properties["bootstrap.servers"]}
         )
-        topics_list = client.list_topics(timeout=7)
+        topics_list = client.list_topics(timeout=15)
         topic_name = self.topic_name
         if topic_name not in topics_list.topics:
             logger.info(f"creating topic {topic_name}")
