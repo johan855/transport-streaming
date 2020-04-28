@@ -3,7 +3,7 @@ import logging
 
 from confluent_kafka import avro
 from confluent_kafka.admin import AdminClient, NewTopic
-from confluent_kafka.avro import AvroProducer, CachedSchemaRegistryClient
+from confluent_kafka.avro import AvroProducer
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +45,6 @@ class Producer:
             Producer.existing_topics.add(self.topic_name)
 
         """Initialize Schema setting"""
-        schema_registry = CachedSchemaRegistryClient(SCHEMA_REGISTRY_URL)
         self.producer = AvroProducer(
             self.broker_properties,
             default_key_schema=self.key_schema,
