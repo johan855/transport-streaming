@@ -59,7 +59,7 @@ class Producer:
         )
         topics_list = client.list_topics(timeout=7)
         topic_name = self.topic_name
-        if topic_name not in set(t.topic for t in iter(topics_list.topics.values())):
+        if topic_name not in topics_list.topics:
             logger.info(f"creating topic {topic_name}")
             futures = client.create_topics(
                 [NewTopic(
