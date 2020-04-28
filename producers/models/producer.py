@@ -80,7 +80,7 @@ class Producer:
 
     def close(self):
         """Prepares the producer for exit by cleaning up the producer"""
-        if self.topic_name != None:
+        if self.producer != None:
             self.producer.flush()
             logger.info("producer flushed")
         else:
