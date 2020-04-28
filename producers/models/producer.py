@@ -58,18 +58,21 @@ class Producer:
             {"bootstrap.servers": self.broker_properties["bootstrap.servers"]}
         )
         topics_list = client.list_topics(timeout=5)
-        if self.topic_name in set(t.topic for t in iter(topics_list.topics.values())):
-            logger.info("topic already exists, skipping...")
-            return
         topic_name = self.topic_name
-        logger.info(f"creating topic {topic_name}")
-        futures = client.create_topics(
-            [NewTopic(
-                topic = topic_name,
-                num_partitions = self.num_partitions,
-                replication_factor = self.num_replicas
-            )]
-        )
+        if topic_name not in set(t.topic for t in iter(topics_list.topics.values())):
+
+            logger.info(f"creating topic {topic_name}")
+            futures = client.create_topics(
+                [NewTopic(
+                    topic=topic_name,
+                    num_partitions=self.num_partitions,
+                    replication_factor=self.num_replicas
+                )]
+            )
+            return
+        else:
+            logger.info("topic already exists, skipping...")
+
 
 
     def time_millis(self):
