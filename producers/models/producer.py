@@ -36,7 +36,6 @@ class Producer:
         """Initializes Broker settings"""
         self.broker_properties = {
             "group.id": "transportation-elements-group",
-            "zookeeper.connect": "localhost:2181",
             "bootstrap.servers": BROKER_URL,
             "schema.registry.url": SCHEMA_REGISTRY_URL
         }
@@ -76,6 +75,7 @@ class Producer:
                 logger.info(f"topic {topic_name} created.")
             except Exception as e:
                 logger.info(f"topic {topic_name} creation failed.")
+                logger.info(f"{e}")
 
 
 
