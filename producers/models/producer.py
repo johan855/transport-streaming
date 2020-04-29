@@ -35,6 +35,7 @@ class Producer:
 
         """Initializes Broker settings"""
         self.broker_properties = {
+            "group.id": "transportation-elements-group",
             "bootstrap.servers": BROKER_URL,
             "schema.registry.url": SCHEMA_REGISTRY_URL
         }
@@ -57,7 +58,7 @@ class Producer:
         client = AdminClient(
             {"bootstrap.servers": self.broker_properties["bootstrap.servers"]}
         )
-        topics_list = client.list_topics(timeout=15)
+        topics_list = client.list_topics(timeout=7)
         topic_name = self.topic_name
         if topic_name in topics_list.topics:
             logger.info(f"topic {topic_name} already exists, skipping...")
