@@ -51,6 +51,7 @@ class TimeSimulation:
             Line(Line.colors.red, self.raw_df[self.raw_df["red"]]),
             Line(Line.colors.green, self.raw_df[self.raw_df["green"]]),
         ]
+        logger.info("Finished setting trainline")
 
     def run(self):
         curr_time = datetime.datetime.utcnow().replace(
