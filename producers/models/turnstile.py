@@ -26,7 +26,7 @@ class Turnstile(Producer):
         )
         station_id = station.station_id
         super().__init__(
-            topic_name=f"com.chicago.turnstile.{station_name}.{station_id}",
+            topic_name=f"com.chicago.turnstile",
             key_schema=Turnstile.key_schema,
             value_schema=Turnstile.value_schema,
             num_partitions=5,
