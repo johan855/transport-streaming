@@ -59,24 +59,23 @@ class Producer:
             {"bootstrap.servers": self.broker_properties["bootstrap.servers"]}
         )
         topics_list = client.list_topics(timeout=7)
-        topic_name = self.topic_name
-        if topic_name in topics_list.topics:
-            logger.info(f"topic {topic_name} already exists, skipping...")
+        if self.topic_name in set(
+                t.topic for t in iter(topics_list.topics.values())
+        ):
+            logger.info(f"topic {self.topic_name} already exists, skipping...")
             return
         futures = client.create_topics([
             NewTopic(
-                topic=topic_name,
+                topic=self.topic_name,
                 num_partitions=self.num_partitions,
                 replication_factor=self.num_replicas)
         ])
         for topic, future in futures.items():
             try:
                 future.result()
-                logger.info(f"topic {topic_name} created.")
+                logger.info(f"topic {self.topic_name} created.")
             except Exception as e:
-                logger.info(f"topic {topic_name} creation failed.")
-                logger.info(f"{e}")
-
+                logger.info(f"topic {self.topic_name} creation failed.")
 
 
     def time_millis(self):
