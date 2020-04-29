@@ -36,6 +36,7 @@ class Producer:
         """Initializes Broker settings"""
         self.broker_properties = {
             "group.id": "transportation-elements-group",
+            "zookeeper.connect": "localhost:2181",
             "bootstrap.servers": BROKER_URL,
             "schema.registry.url": SCHEMA_REGISTRY_URL
         }
