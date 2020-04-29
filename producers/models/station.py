@@ -21,7 +21,7 @@ class Station(Producer):
         self.name = name
 
         super().__init__(
-            topic_name="com.chicago.station.v1",
+            topic_name=f"com.chicago.station.{self.name}",
             key_schema=Station.key_schema,
             value_schema=Station.value_schema,
             num_partitions=4,
