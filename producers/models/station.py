@@ -19,20 +19,12 @@ class Station(Producer):
 
     def __init__(self, station_id, name, color, direction_a=None, direction_b=None):
         self.name = name
-        station_name = (
-            self.name.lower()
-            .replace("/", "_and_")
-            .replace(" ", "_")
-            .replace("-", "_")
-            .replace("'", "")
-        )
 
-        topic_name = f"com.udacity.stations.{station_id}"
         super().__init__(
-            topic_name,
+            topic_name="com.chicago.station.v1",
             key_schema=Station.key_schema,
             value_schema=Station.value_schema,
-            num_partitions=2,
+            num_partitions=4,
             num_replicas=1,
         )
 
