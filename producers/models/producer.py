@@ -76,6 +76,7 @@ class Producer:
                 logger.info(f"topic {self.topic_name} created.")
             except Exception as e:
                 logger.info(f"topic {self.topic_name} creation failed.")
+                logger.info(f"{e}")
 
 
     def time_millis(self):
